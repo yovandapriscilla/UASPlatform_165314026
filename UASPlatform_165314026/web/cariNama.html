@@ -55,18 +55,51 @@
             font-family: 'Times New Roman', sans-serif;
             font-size: 15px;
         }
-        table, th , td  {
-            font-family: 'Times New Roman', sans-serif;
-            color: white;
-            border: 1px white;
+        article {
+            float: left;
+            padding: 20px;
+            width: 82%;
+            height: 500px;
+            font-family: 'Ubuntu', sans-serif;
+            background-image: url("Klinik1.jpg");
+            background-size: cover;    
+        }
+        /* Clear floats after the columns */
+        section::after {
+            content: "";
+            display: table;
+            clear: both;
+        }
+        /* Scroll Table */
+        .fixed_header{
+            width: 800px;
+            table-layout: fixed;
             border-collapse: collapse;
+        }
+        .fixed_header tbody{
+            display:block;
+            width: 100%;
+            overflow: auto;
+            height: 400px;
+        }
+        .fixed_header thead tr {
+            display: block;
+        }
+        .fixed_header thead {
+            background: black;
+            color:#fff;
+        }
+        .fixed_header th, .fixed_header td {
             padding: 5px;
+            text-align: left;
+            width: 400px;
         }
-        table tr:nth-child(odd) {
-            background-image: url(http://3.bp.blogspot.com/-ad7Ibmldryw/UZxWf_fAveI/AAAAAAAAGF0/tBAubZfcda8/s320/Orion.gif);
-        }
-        table tr:nth-child(even) {
-            background-image: url(http://3.bp.blogspot.com/-ad7Ibmldryw/UZxWf_fAveI/AAAAAAAAGF0/tBAubZfcda8/s320/Orion.gif);
+        a.button {
+            -webkit-appearance: button;
+            -moz-appearance: button;
+            appearance: button;
+            text-decoration: none;
+            color: initial;
         }
         @media (max-width: 600px) {
             nav, article {
@@ -100,54 +133,55 @@
             <font color="blue"><h2>We Are One</h2></font><font color="white"><b></b></font></a>
     </div>
 
-    <h1><font face="Times New Roman" color=white size="6">Cari Pasien Rumah Sakit</font></h1>
-    <font color="white" face="Times New Roman">Nama</font></td> <td>
-    <input type="text" id="cariNama"/>
-    <button type="button" face="Times New Roman" color="white" size="3" onclick="cariPasien()" id="btn">Cari</button>
-    <div id="demo" style="margin-left: 5%"></div>
+    <section>
+        <article>
+            <font face="Times New Roman" color="white"> Cari: </font><br>
+            <input type="text" id="input" placeholder="Masukkan Nama" required>
+            <button id="cariButton" onclick="cariPasien()" >Cari</button>
+            <p id="demo"></p>
+        </article>
+    </section>
+
+    <!--    <h1><font face="Times New Roman" color=white size="6">Cari Pasien Rumah Sakit</font></h1>
+        <font color="white" face="Times New Roman">Nama</font></td> <td>
+        <input type="text" id="cariNama"/>
+        <button type="button" face="Times New Roman" color="white" size="3" onclick="cariPasien()" id="btn">Cari</button>
+        <div id="demo" style="margin-left: 5%"></div>-->
 
     <script>
         function cariPasien() {
             var xmlhttp = new XMLHttpRequest();
             var url = "http://206.189.38.188:8080/myrs/webresources/pasien/cariNamaPasien?nama=" + cariNama.value;
-            xmlhttp.onreadystatechange = function () {
-                if (this.readyState === 4 && this.status === 200) {
-                    myFunction(this.responseText);
-                }
-            };
+            
             xmlhttp.open("GET", url, true);
             xmlhttp.send();
-            function myFunction(response) {
-                var arr = JSON.parse(response);
-                var i;
-//                var o = button.value;
-                var out = "<table align='center' style='width:50%;' border='2'><tr><td>NIK</td>\n\
-            <td>Nama</td><td>Tanggal Lahir</td></tr>";
-                for (i = 0; i < arr.length; i++) {
-                    out += "<tr><td>" +
-                            arr[i].nik +
-                            "</td><td>" +
-                            arr[i].nama +
-                            "</td><td>" +
-                            arr[i].tanggalLahir +
-//                            "</td><td>" +
-//                            arr[i].o +
-                            "</td><tr>";
+            xhttp.onreadystatechange = function () {
+                if (this.readyState == 4 && this.status == 200) {
+                    var myObj = JSON.parse(this.responseText);
+                    txt += "<table border='1' bgColor='white' class='fixed_header'>"
+                    txt += "<tr><td>" + "NIK" + "</td><td>" + "Nama" + "</td><td>" + "Tanggal Lahir" + "</td><td>"
+                            + "</td></tr>"
+                    for (x in myObj) {
+                        txt += "<tr><td>" + myObj[x].nik + "</td><td>" + myObj[x].nama + "</td><td>" + myObj[x].tanggalLahir
+                                + "</td><td>" + "<button type=\"submit\" onclick=\"myFunction1('" + myObj[x].nik + "')\">Detail</button>" + "</td></tr>";
+                    }
+                    txt += "</table>"
+                    document.getElementById("demo").innerHTML = txt;
                 }
-                out += "</table>";
-                document.getElementById("demo").innerHTML = out;
-            }
+            };
         }
-    </script>
-
-    <a style="margin-left: 80%" onclick="loadDoc()" class="btn btn-info">Detil</a>
-
-    <script>
         function loadDoc() {
             window.open("detilPasien.html");
+            setCookie("nik", nik, 1);
+        }
+        function setCookie(cname, cvalue, exdays) {
+            var d = new Date();
+            d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
+            var expires = "expires=" + d.toUTCString();
+            document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
         }
     </script>
-    
+
     <footer class="footer">
         <p><font face="Century Gothic">This page is copyrighted © 2018 by yovandapriscill_a</font></p>
     </footer>

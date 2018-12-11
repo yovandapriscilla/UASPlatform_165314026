@@ -55,18 +55,51 @@
             font-family: 'Times New Roman', sans-serif;
             font-size: 15px;
         }
-        table, th , td  {
-            font-family: 'Times New Roman', sans-serif;
-            color: white;
-            border: 1px white;
+        article {
+            float: left;
+            padding: 20px;
+            width: 82%;
+            height: 500px;
+            font-family: 'Ubuntu', sans-serif;
+            background-image: url("Klinik1.jpg");
+            background-size: cover;    
+        }
+        /* Clear floats after the columns */
+        section::after {
+            content: "";
+            display: table;
+            clear: both;
+        }
+        /* Scroll Table */
+        .fixed_header{
+            width: 800px;
+            table-layout: fixed;
             border-collapse: collapse;
+        }
+        .fixed_header tbody{
+            display:block;
+            width: 100%;
+            overflow: auto;
+            height: 400px;
+        }
+        .fixed_header thead tr {
+            display: block;
+        }
+        .fixed_header thead {
+            background: black;
+            color:#fff;
+        }
+        .fixed_header th, .fixed_header td {
             padding: 5px;
+            text-align: left;
+            width: 400px;
         }
-        table tr:nth-child(odd) {
-            background-image: url(http://3.bp.blogspot.com/-ad7Ibmldryw/UZxWf_fAveI/AAAAAAAAGF0/tBAubZfcda8/s320/Orion.gif);
-        }
-        table tr:nth-child(even) {
-            background-image: url(http://3.bp.blogspot.com/-ad7Ibmldryw/UZxWf_fAveI/AAAAAAAAGF0/tBAubZfcda8/s320/Orion.gif);
+        a.button {
+            -webkit-appearance: button;
+            -moz-appearance: button;
+            appearance: button;
+            text-decoration: none;
+            color: initial;
         }
         @media (max-width: 600px) {
             nav, article {
@@ -100,45 +133,72 @@
             <font color="blue"><h2>We Are One</h2></font><font color="white"><b></b></font></a>
     </div>
 
-    <h1><font face="Times New Roman" color=white size="6">Cari Pasien Rumah Sakit</font></h1>
-    <font color="white" face="Times New Roman">NIK</font></td> <td>
-    <input type="text" id="cariNIK"/>
-    <button type="button" face="Times New Roman" color="white" size="3" onclick="cariPasien()" id="btn">Cari</button>
-    <div id="demo" style="margin-left: 5%"></div>
+    <!--    <h1><font face="Times New Roman" color=white size="6">Cari Pasien Rumah Sakit</font></h1>
+        <font color="white" face="Times New Roman">NIK</font></td> <td>
+        <input type="text" id="cariNIK"/>
+        <button type="button" face="Times New Roman" color="white" size="3" onclick="cariPasien()" id="btn">Cari</button>
+        <div id="demo" style="margin-left: 5%"></div>-->
+
+    <section>
+        <article>
+            <font face="Times New Roman" color="white">No RM : </font><br>
+            <input type="text" id="noRm" disabled>
+            <br><br>
+            <font face="Times New Roman" color="white">Nama : </font><br>
+            <input type="text" id="nama" disabled>
+            <br><br>
+            <font face="Times New Roman" color="white">NIK : </font><br>
+            <input type="text" id="nik" disabled>
+            <br><br>
+            <font face="Times New Roman" color="white">Alamat : </font><br>
+            <input type="text" id="alamat" disabled>
+            <br><br>
+            <font face="Times New Roman" color="white">Tanggal Lahir : </font><br>
+            <input type="text" id="tanggalLahir" disabled>
+            <br><br>
+            <font face="Times New Roman" color="white">Kelamin : </font><br>
+            <input type="text" id="kelamin" disabled>
+            <br><br>
+
+            <p id="demo"></p>
+            <br>
+        </article>
+    </section>
+
 
     <script>
         function cariPasien() {
             var xmlhttp = new XMLHttpRequest();
             var url = "http://206.189.38.188:8080/myrs/webresources/pasien/cariPasien?nik=" + cariNIK.value;
-            xmlhttp.onreadystatechange = function () {
-                if (this.readyState === 4 && this.status === 200) {
-                    myFunction(this.responseText);
-                }
-            };
+
             xmlhttp.open("GET", url, true);
             xmlhttp.send();
-            function myFunction(response) {
-                var arr = JSON.parse(response);
-                var i;
-                var out = "<table align='center' style='width:50%;' border='2'><tr><td>No RM</td>\n\
-            <td>Nama</td><td>Alamat</td><td>NIK</td><td>Tanggal Lahir</td><td>Kelamin</td></tr>";
-                for (i = 0; i < arr.length; i++) {
-                    out += "<tr><td>" +
-                            arr[i].noRm +
-                            "</td><td>" +
-                            arr[i].nama +
-                            "</td><td>" +
-                            arr[i].alamat +
-                            "</td><td>" +
-                            arr[i].nik +
-                            "</td><td><td>" +
-                            arr[i].tanggalLahir +
-                            "</td></td><td>" +
-                            arr[i].kelamin +
-                            "</td><tr>";
+            xhttp.onreadystatechange = function () {
+                if (this.readyState == 4 && this.status == 200) {
+                    var objj = JSON.parse(this.responseText);
+                    document.getElementById("noRm").value = objj.noRm;
+                    document.getElementById("nama").value = objj.nama;
+                    document.getElementById("nik").value = objj.nik;
+                    document.getElementById("alamat").value = objj.alamat;
+                    document.getElementById("tanggalLahir").value = objj.tanggalLahir;
+                    document.getElementById("kelamin").value = objj.kelamin;
                 }
-                out += "</table>";
-                document.getElementById("demo").innerHTML = out;
+            };
+
+            function getCookie(cname) {
+                var name = cname + "=";
+                var decodedCookie = decodeURIComponent(document.cookie);
+                var ca = decodedCookie.split(';');
+                for (var i = 0; i < ca.length; i++) {
+                    var c = ca[i];
+                    while (c.charAt(0) === ' ') {
+                        c = c.substring(1);
+                    }
+                    if (c.indexOf(name) === 0) {
+                        return c.substring(name.length, c.length);
+                    }
+                }
+                return "";
             }
         }
     </script>
