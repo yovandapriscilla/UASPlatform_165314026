@@ -120,6 +120,7 @@
             function myFunction(response) {
                 var arr = JSON.parse(response);
                 var i;
+//                var o = button.value;
                 var out = "<table align='center' style='width:50%;' border='2'><tr><td>NIK</td>\n\
             <td>Nama</td><td>Tanggal Lahir</td></tr>";
                 for (i = 0; i < arr.length; i++) {
@@ -129,6 +130,8 @@
                             arr[i].nama +
                             "</td><td>" +
                             arr[i].tanggalLahir +
+//                            "</td><td>" +
+//                            arr[i].o +
                             "</td><tr>";
                 }
                 out += "</table>";
@@ -136,7 +139,14 @@
             }
         }
     </script>
-    <!--<button href="detilPasien.html" onclick="cariPasien()" type="button" id="button">Detil</button>;-->
+
+    <a style="margin-left: 80%" onclick="loadDoc()" class="btn btn-info">Detil</a>
+
+    <script>
+        function loadDoc() {
+            window.open("detilPasien.html");
+        }
+    </script>
     
     <footer class="footer">
         <p><font face="Century Gothic">This page is copyrighted © 2018 by yovandapriscill_a</font></p>

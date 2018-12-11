@@ -103,11 +103,11 @@
     <h1><font face="Times New Roman" color=white size="6">Cari Pasien Rumah Sakit</font></h1>
     <font color="white" face="Times New Roman">NIK</font></td> <td>
     <input type="text" id="cariNIK"/>
-    <button type="button" face="Times New Roman" color="white" size="3" onclick="cariPasienNIK()" id="btn">Cari</button>
+    <button type="button" face="Times New Roman" color="white" size="3" onclick="cariPasien()" id="btn">Cari</button>
     <div id="demo" style="margin-left: 5%"></div>
 
     <script>
-        function cariPasienNIK() {
+        function cariPasien() {
             var xmlhttp = new XMLHttpRequest();
             var url = "http://206.189.38.188:8080/myrs/webresources/pasien/cariPasien?nik=" + cariNIK.value;
             xmlhttp.onreadystatechange = function () {
@@ -120,21 +120,21 @@
             function myFunction(response) {
                 var arr = JSON.parse(response);
                 var i;
-                var out = "<table align='center' style='width:50%;' border='2'><tr><td>No RM</td><td>NIK</td>\n\
-            <td>Nama</td><td>Tanggal Lahir</td><td>Jenis Kelamin</td><td>Alamat</td></tr>";
+                var out = "<table align='center' style='width:50%;' border='2'><tr><td>No RM</td>\n\
+            <td>Nama</td><td>Alamat</td><td>NIK</td><td>Tanggal Lahir</td><td>Kelamin</td></tr>";
                 for (i = 0; i < arr.length; i++) {
                     out += "<tr><td>" +
                             arr[i].noRm +
                             "</td><td>" +
-                            arr[i].nik +
-                            "</td><td>" +
                             arr[i].nama +
                             "</td><td>" +
-                            arr[i].tanggalLahir +
-                            "</td><td>" +
-                            arr[i].kelamin +
-                            "</td><td>" +
                             arr[i].alamat +
+                            "</td><td>" +
+                            arr[i].nik +
+                            "</td><td><td>" +
+                            arr[i].tanggalLahir +
+                            "</td></td><td>" +
+                            arr[i].kelamin +
                             "</td><tr>";
                 }
                 out += "</table>";
@@ -142,5 +142,9 @@
             }
         }
     </script>
+
+    <footer class="footer">
+        <p><font face="Century Gothic">This page is copyrighted © 2018 by yovandapriscill_a</font></p>
+    </footer>
 </body>
 </html>
